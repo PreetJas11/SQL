@@ -43,3 +43,8 @@ Select SaleDate,Electronics, Furniture FROM (
  PIVOT(
     SUM(SalesAmount) for ProductCategory IN([Electronics],[Furniture])
 )as pvt ORDER BY SaleDate;
+
+
+-- Report with total for each product category and grand total for all the sales.
+
+SELECT ProductCategory, SUM(SalesAmount) as totalsales FROM DailySales GROUP BY ROLLUP (ProductCategory);
