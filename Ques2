@@ -10,13 +10,13 @@ CREATE TABLE DailySales (
 -- Insert Dummy Data 
 
 Insert Into DailySales (SaleDate, ProductCategory, SalesAmount)VALUES
-('2025-12-23','Electronics', 100.70),
-('2025-12-13','Food', 160.00),
-('2025-11-23','Food', 70),
-('2026-01-23','Electronics', 30.50),
-('2025-09-20','Electronics', 120.00),
-('2025-2-15','Furniture', 90),
-('2025-8-9','Electronics', 55.00);
+('2025-12-23','Electronics', 20.70),
+('2025-12-13','Food', 20.00),
+('2025-11-23','Food', 160),
+('2026-01-23','Furniture', 130.50),
+('2025-09-20','Electronics', 128.00),
+('2025-2-15','Furniture', 80),
+('2025-8-9','Electronics', 95.00);
 
 select * from DailySales;
 
@@ -28,3 +28,10 @@ WITH sales AS (
     SELECT SaleId, SalesAmount as topsales from DailySales WHERE SalesAmount > 100
 )
 Select AVG(topsales) FROM sales;
+
+-- Rank the Sales within each category from the highest to lowest amount. Order the result by Product Category and then the sales rank.
+
+WITH salesrank AS (
+    select saleId, SalesAmount, ProductCategory, DENSE_RANK() OVER(PARTITION By ProductCategory ORDER By SalesAmount DESC)as rnk from DailySales
+)
+SELECT saleId, SalesAmount, ProductCategory FROM salesrank ORDER BY ProductCategory;
