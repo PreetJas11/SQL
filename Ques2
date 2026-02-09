@@ -1,0 +1,30 @@
+CREATE TABLE DailySales (
+    SaleId INT Identity (1,1) PRIMARY KEY,
+    SaleDate DATE,
+    ProductCategory VARCHAR(20),
+    SalesAmount DECIMAL(10,2)
+);
+
+-- DROP TABLE DailySales;
+
+-- Insert Dummy Data 
+
+Insert Into DailySales (SaleDate, ProductCategory, SalesAmount)VALUES
+('2025-12-23','Electronics', 100.70),
+('2025-12-13','Food', 160.00),
+('2025-11-23','Food', 70),
+('2026-01-23','Electronics', 30.50),
+('2025-09-20','Electronics', 120.00),
+('2025-2-15','Furniture', 90),
+('2025-8-9','Electronics', 55.00);
+
+select * from DailySales;
+
+SELECT SaleId, SalesAmount as topsales from DailySales WHERE SalesAmount > 100
+ 
+-- Find the sales greater than $100 and then select the average of those high value sales.
+
+WITH sales AS (
+    SELECT SaleId, SalesAmount as topsales from DailySales WHERE SalesAmount > 100
+)
+Select AVG(topsales) FROM sales;
