@@ -45,6 +45,11 @@ Select SaleDate,Electronics, Furniture FROM (
 )as pvt ORDER BY SaleDate;
 
 
+-- Calculate the average sales for the current day abd the preceding 2 days.
+
+SELECT SaleDate, SalesAmount, AVG(SalesAmount) OVER( ORDER BY SaleDate Rows BETWEEN 2 PRECEDING AND CURRENT ROW) as Rolling3DayAvg
+FROM DailySales ORDER BY SaleDate;
+
 -- Report with total for each product category and grand total for all the sales.
 
 SELECT ProductCategory, SUM(SalesAmount) as totalsales FROM DailySales GROUP BY ROLLUP (ProductCategory);
