@@ -35,3 +35,11 @@ WITH salesrank AS (
     select saleId, SalesAmount, ProductCategory, DENSE_RANK() OVER(PARTITION By ProductCategory ORDER By SalesAmount DESC)as rnk from DailySales
 )
 SELECT saleId, SalesAmount, ProductCategory FROM salesrank ORDER BY ProductCategory;
+
+-- Transform the table to see the total SalesAmount for each sales date with electronics and furniture as columns.
+
+Select SaleDate,Electronics, Furniture FROM (
+    SELECT SaleDate, ProductCategory, SalesAmount FROM DailySales) as src
+ PIVOT(
+    SUM(SalesAmount) for ProductCategory IN([Electronics],[Furniture])
+)as pvt ORDER BY SaleDate;
